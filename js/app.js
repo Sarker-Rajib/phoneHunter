@@ -41,7 +41,7 @@ const displayPhones = (phones, dataLimit) => {
                <p class="card-text">${phone.phone_name}</p>
             </div>
             <div class="text-center py-2">
-               <button onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-success">Show Details</button>
+               <button onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#phoneDisplay">Show Details</button>
             </div>
          </div>
       `
@@ -90,7 +90,18 @@ const loadPhoneDetails = async id => {
    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
    const res = await fetch(url);
    const data = await res.json();
-   console.log(data.data);
+   dPD(data.data);
+}
+
+const dPD = phone =>{
+   const modalHeader = document.getElementById('phoneDisplayLabel');
+   modalHeader.innerText = phone.name;
+   const modalbody = document.getElementById('phone-details');
+   modalbody.innerHTML = `
+      <p>Release Date : ${phone.releaseDate ? phone.releaseDate : 'no release date found'}</p>
+      <p>Storage : ${phone.mainFeatures.storage ? phone.mainFeatures.storage : 'no release date found'}</p>
+      <p>Others: ${phone.others.Bluetooth ? phone.others.Bluetooth : 'no release date found'}</p>
+   `
 }
 
 // loadPhones()
